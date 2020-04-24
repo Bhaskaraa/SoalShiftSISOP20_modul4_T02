@@ -51,7 +51,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
 
 ```
 ## Dokumentasi Penyelesaian Soal 1
-![]()
+![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/coming-soon-9c717dcb8e.jpg)
 
 # Soal 2 - Enkripsi Versi 2
 Enkripsi versi 2 adalah sebagai berikut.
@@ -69,7 +69,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
 
 ```
 ## Dokumentasi Penyelesaian Soal 2
-![]()
+![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/coming-soon-9c717dcb8e.jpg)
 
 # Soal 3 - Sinkronisasi Direktori
 Tanpa mengurangi keumuman, misalkan suatu directory bernama dir akan tersinkronisasi dengan directory yang memiliki nama yang sama dengan awalan sync_ yaitu sync_dir. Persyaratan untuk sinkronisasi yaitu :
@@ -89,7 +89,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
 
 ```
 ## Dokumentasi Penyelesaian Soal 3
-![]()
+![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/coming-soon-9c717dcb8e.jpg)
 
 # Soal 4 - Log System
 Log System bekerja sebagai berikut.
@@ -124,7 +124,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
 
 ```
 ## Dokumentasi Penyelesaian Soal 4
-![]()
+![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/coming-soon-9c717dcb8e.jpg)
 
 ## Kendala yang Dialami
 ***1.*** Banyak tugas yang lain yang membebani sehingga tidak fokus dalam mengerjakan soal shift. \
