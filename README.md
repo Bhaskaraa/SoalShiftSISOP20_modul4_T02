@@ -5,21 +5,23 @@ Disusun oleh :
 - Azmi (05311840000047)
 
 # Daftar Isi
-## [Soal 1]()
-- [Penyelesaian Soal 1]()
-- [Dokumentasi Output yang Dihasilkan]()
+## [Soal 1](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#soal-1---enkripsi-versi-1)
+- [Penyelesaian Soal 1](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#penyelesaian-soal-1)
+- [Dokumentasi Output yang Dihasilkan](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#dokumentasi-penyelesaian-soal-1)
 
-## [Soal 2]()
-- [Penyelesaian Soal 2]()
-- [Dokumentasi Output yang Dihasilkan]()
+## [Soal 2](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#soal-2---enkripsi-versi-2)
+- [Penyelesaian Soal 2](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#penyelesaian-soal-2)
+- [Dokumentasi Output yang Dihasilkan](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#dokumentasi-penyelesaian-soal-2)
 
-## [Soal 3]()
-- [Penyelesaian Soal 3]()
-- [Dokumentasi Output yang Dihasilkan]()
+## [Soal 3](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#soal-3---sinkronisasi-direktori)
+- [Penyelesaian Soal 3](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#penyelesaian-soal-3)
+- [Dokumentasi Output yang Dihasilkan](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#dokumentasi-penyelesaian-soal-3)
 
-## [Soal 4]()
-- [Penyelesaian Soal 4]()
-- [Dokumentasi Output yang Dihasilkan]()
+## [Soal 4](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#soal-4---log-system)
+- [Penyelesaian Soal 4](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#penyelesaian-soal-4)
+- [Dokumentasi Output yang Dihasilkan](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#dokumentasi-penyelesaian-soal-4)
+
+## [Kendala yang Dialami Penulis](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02#kendala-yang-dialami)
 
 # Pendahuluan Soal
 Di suatu perusahaan, terdapat pekerja baru yang super jenius, ia bernama Jasir. Jasir baru bekerja selama seminggu di perusahan itu, dalam waktu seminggu tersebut ia selalu terhantui oleh ketidak amanan dan ketidak efisienan file system yang digunakan perusahaan tersebut. Sehingga ia merancang sebuah file system yang sangat aman dan efisien. Agar integritas filesystem tersebut lebih terjamin, maka setiap command yang dilakukan akan dicatat kedalam sebuah file log. File System yang dirancang oleh Jasir akan dijelaskan dari soal 1 hingga soal 4.
