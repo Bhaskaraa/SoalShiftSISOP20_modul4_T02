@@ -26,8 +26,8 @@ Disusun oleh :
 # Pendahuluan Soal
 Di suatu perusahaan, terdapat pekerja baru yang super jenius, ia bernama Jasir. Jasir baru bekerja selama seminggu di perusahan itu, dalam waktu seminggu tersebut ia selalu terhantui oleh ketidak amanan dan ketidak efisienan file system yang digunakan perusahaan tersebut. Sehingga ia merancang sebuah file system yang sangat aman dan efisien. Agar integritas filesystem tersebut lebih terjamin, maka setiap command yang dilakukan akan dicatat kedalam sebuah file log. File System yang dirancang oleh Jasir akan dijelaskan dari soal 1 hingga soal 4.
 
-(catatan: filesystem berfungsi normal layaknya linux pada umumnya) \
-(catatan: mount source (root) filesystem adalah direktori /home/[user]/Documents) 
+(***catatan*** : filesystem berfungsi normal layaknya linux pada umumnya) \
+(***catatan*** : mount source (root) filesystem adalah direktori /home/[user]/Documents) 
 
 # Soal 1 - Enkripsi Versi 1
 Enkripsi versi 1 adalah sebagai berikut.
