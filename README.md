@@ -601,7 +601,7 @@ int main(int argc, char *argv[]) {
 - variabel ***argc*** dan ***argv*** berisi perintah yang akan dijalankan.
 - variabel ***_func*** merupakan variabel yang digunakan untuk memanggil command operasi yang ada.
 
-## Note : untuk penjelasan source code nomor 4 selebihnya sama untuk masing-masing operasi fuse sehingga penulis hanya menulis beberapa sebagai contoh.
+### Note : untuk penjelasan source code nomor 4 selebihnya sama untuk masing-masing operasi fuse sehingga penulis hanya menulis beberapa sebagai contoh.
 
 ## Dokumentasi Penyelesaian Soal 4
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/7.png)
