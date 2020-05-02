@@ -66,13 +66,15 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://gi
 #include <sys/wait.h>
 #include <pthread.h>
 ```
-- sdasd
+- Semua library diatas adalah library yang digunakan dalam program fuse. `#define FUSE_USE_VERSION 28` adalah library khusu untuk fuse versi terbaru
 ```
 static int exception = 0;
 static const char *dirpath = "/home/bhaskarajd/Documents";
 char key[87] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}eTt$3J-zpc]lnh8,GwP_ND|jO";
 ```
-- 
+- variabel ***dirpath*** akan menyimpan path/alamat direktori yang dieksekusi.
+- variabel ***key*** menyimpan kunci yang digunakan untuk enkripsi yang berjumlah 87 karakter.
+
 Berikut adalah fungsi untuk melakukan enkripsi :
 ```
 void encv1(int encrypt, char *a, int len) {
@@ -107,7 +109,14 @@ void encv1(int encrypt, char *a, int len) {
   }
 }
 ```
-- b
+- variabel ***encrypt***
+- variabel ***a*** menyimpan setiap karakter dari alamat/path yang dieksekusi.
+- variabel ***index*** dan ***end*** bertipe integer dan bernilai -1.
+- command ` sscanf(a, "%*[^/]/%n%*[^./]%n", &index, &end)` berfungsi untuk membaca formatting dari data.
+- ketika fungsi ***encrpyt*** berjalan, terdapat dua kondisi. Jika variabel ***i*** sama dengan index dan kurang dari end, serta variabel ***j*** sama dengan 0 dan kurang dari 87, kedua variabel itu akan di increment. Dan jika kondisi variabel ***a*** dengan i nilainya sama dengan nilai variabel ***key*** dengan j, maka dilakukan operasi `a[i] = key[(j + 10) % 87]`.
+- Dalam kondisi ***else***, letak perbedaannya adalah pada operasinya yakni menjadi ` a[i] = key[(j + 77) % 87]`.
+
+
 ## Dokumentasi Penyelesaian Soal 1
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/1.png)
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/2.png)
