@@ -32,8 +32,8 @@ Di suatu perusahaan, terdapat pekerja baru yang super jenius, ia bernama Jasir. 
 # Soal 1 - Enkripsi Versi 1
 Enkripsi versi 1 adalah sebagai berikut.
 - Jika sebuah direktori dibuat dengan awalan “encv1_”, maka direktori tersebut akan menjadi direktori terenkripsi menggunakan metode enkripsi v1.
-- Jika sebuah direktori di-​rename ​ dengan awalan “encv1_”, maka direktori tersebut akan menjadi direktori terenkripsi menggunakan metode enkripsi v1. 
-- Apabila sebuah direktori terenkripsi di-​rename ​ menjadi tidak terenkripsi, maka isi adirektori tersebut akan terdekrip. 
+- Jika sebuah direktori di-rename dengan awalan “encv1_”, maka direktori tersebut akan menjadi direktori terenkripsi menggunakan metode enkripsi v1. 
+- Apabila sebuah direktori terenkripsi di-rename menjadi tidak terenkripsi, maka isi adirektori tersebut akan terdekrip. 
 - Setiap pembuatan direktori terenkripsi baru (mkdir ataupun rename) akan tercatat ke sebuah database/log berupa file.
 - Semua file yang berada dalam direktori ter enkripsi menggunakan caesar cipher dengan key. 
 - Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lainnya yang ada didalamnya. 
@@ -45,11 +45,69 @@ Contoh implementasnya adalah sebagai berikut.
 ***Note : Dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di encrypt.*** 
 
 File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
+## Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ***ssfs.c*** .
 
 ## Penyelesaian Soal 1
 ```
-
+#define FUSE_USE_VERSION 28
+#include <fuse.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <errno.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <pwd.h>
+#include <grp.h>
+#include <sys/xattr.h>
+#include <sys/wait.h>
+#include <pthread.h>
 ```
+- sdasd
+```
+static int exception = 0;
+static const char *dirpath = "/home/bhaskarajd/Documents";
+char key[87] = "9(ku@AW1[Lmvgax6q`5Y2Ry?+sF!^HKQiBXCUSe&0M.b%rI'7d)o4~VfZ*{#:}eTt$3J-zpc]lnh8,GwP_ND|jO";
+```
+- 
+Berikut adalah fungsi untuk melakukan enkripsi :
+```
+void encv1(int encrypt, char *a, int len) {
+  if (!strcmp(a, ".") || !strcmp(a, "..") || (!strchr(a, '/') && !encrypt)) return;
+  int index = -1, end = -1;
+  sscanf(a, "%*[^/]/%n%*[^./]%n", &index, &end);
+
+  if (!(a[len - 1] == '/')) {
+    char *ext = strrchr(a, '.');
+    if (ext) end = ext - a;
+    else end = len;
+  }
+
+  if (encrypt) {
+    for (int i = index; i < end; i++) {
+      for (int j = 0; j < 87; j++) {
+        if (a[i] == key[j]) {
+            a[i] = key[(j + 10) % 87];
+            break;
+        }
+      }
+    }
+  } else {
+    for (int i = index; i < end; i++) {
+      for (int j = 0; j < 87; j++) {
+        if (a[i] == key[j]) {
+            a[i] = key[(j + 77) % 87];
+            break;
+        }
+      }
+    }
+  }
+}
+```
+- b
 ## Dokumentasi Penyelesaian Soal 1
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/1.png)
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/2.png)
