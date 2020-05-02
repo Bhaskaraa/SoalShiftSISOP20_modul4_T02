@@ -109,8 +109,10 @@ void encv1(int encrypt, char *a, int len) {
   }
 }
 ```
-- variabel ***encrypt***
+- variabel ***encrypt*** adalah variabel yang menyimpan operasi dan fungsi enkripsi.
+- variabel ***len*** berfungsi untuk melakukan manipulasi karakter.
 - variabel ***a*** menyimpan setiap karakter dari alamat/path yang dieksekusi.
+- command `(!strcmp(a, ".") || !strcmp(a, "..") || (!strchr(a, '/') && !encrypt))` berfungsi untuk membandingkan dan mengidentifikasi karakter pertama variabel ***a*** dengan kondisi dan karakter yang disebutkan.
 - variabel ***index*** dan ***end*** bertipe integer dan bernilai -1.
 - command ` sscanf(a, "%*[^/]/%n%*[^./]%n", &index, &end)` berfungsi untuk membaca formatting dari data.
 - ketika fungsi ***encrpyt*** berjalan, terdapat dua kondisi. Jika variabel ***i*** sama dengan index dan kurang dari end, serta variabel ***j*** sama dengan 0 dan kurang dari 87, kedua variabel itu akan di increment. Dan jika kondisi variabel ***a*** dengan i nilainya sama dengan nilai variabel ***key*** dengan j, maka dilakukan operasi `a[i] = key[(j + 10) % 87]`.
@@ -159,7 +161,13 @@ void encv2(char *path) {
   remove(path);
 }
 ```
-- 
+- variabel ***path*** menyimpan path/alamat data yang akan dieksekusi.
+- variabel ***file*** menyimpan data file yang telah dibuka dengan fopen dan "rb".
+- variabel ***topath*** membatasi ukuran pemecahan sebesar 1000 bit.
+- variabel ***buffer*** menyimpan pengalokasian memori sebesar 1024 bit.
+- variabel ***readSize*** menyimpan ukuran file yang telah dibaca oleh fread.
+- command `fwrite(buffer, 1, readSize, op)` berfungsi untuk mengganti nama file sesuai pemecahan, dan `sprintf(topath, "%s.%03d", path, count)` merupakan format untuk penamaan file.
+
 Berikut merupakan fungsi untuk dekripsi :
 ```
 void decv2(char *path) {
@@ -185,7 +193,11 @@ void decv2(char *path) {
   fclose(file);
 }
 ```
--
+- variabel ***check*** berfungsi untuk menyimpan alamat file yang dibuka.
+- variabel ***file*** menyimpan data file yang telah dibuka dengan fopen dan "rb".
+- fwrite(buffer, 1, readSize, file) berfungsi untuk menulis penamaan file.
+- Fungsi untuk dekripsi ini sama kontennya dengan fungsi enkripsi hanya saja fungsinya terbalik dan output akhirnya adalah file seperti semula.
+
 Berikut merupakan fungsi unntuk enkripsi direktori :
 ```
 void direncv2(int encrypt, char *path) {
@@ -212,7 +224,11 @@ void direncv2(int encrypt, char *path) {
   closedir(d);
 }
 ```
--
+- variabel ***encrypt*** menyimpan fungsi enkripsi.
+- variabel ***path*** menyimpan path dari direktori yang akan dieksekusi.
+- variabel ***d*** menyimpan data direktori yang telah dibuka.
+
+
 
 ## Dokumentasi Penyelesaian Soal 2
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/5.png)
