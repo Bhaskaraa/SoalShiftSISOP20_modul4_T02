@@ -44,8 +44,8 @@ Contoh implementasnya adalah sebagai berikut.
 
 ***Note : Dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di encrypt.*** 
 
-File penyelesaian soal ini dapat dilihat link berikut : [Source Code]() \
-***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ***ssfs.c*** .***
+File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/ssfs.c) \
+***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 1
 ```
@@ -123,12 +123,85 @@ Enkripsi versi 2 adalah sebagai berikut.
 - Pada enkripsi v2, file-file pada direktori asli akan menjadi bagian-bagian kecil sebesar 1024 bytes dan menjadi normal ketika diakses melalui filesystem rancangan jasir. Sebagai contoh, file File_Contoh.txt berukuran 5 kB pada direktori asli akan menjadi 5 file kecil yakni : File_Contoh.txt.000, File_Contoh.txt.001, File_Contoh.txt.002, File_Contoh.txt.003, dan File_Contoh.txt.004.
 - Metode enkripsi pada suatu direktori juga berlaku kedalam direktori lain yang ada didalam direktori tersebut (rekursif). 
  
-File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
+File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/ssfs.c) \
+***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 2
 ```
+void encv2(char *path) {
+  FILE *file = fopen(path, "rb");
+  int count = 0;
+  char topath[1000];
+  sprintf(topath, "%s.%03d", path, count);
+  void *buffer = malloc(1024);
 
+  while(1) {
+    size_t readSize = fread(buffer, 1, 1024, file);
+    if (!readSize)break;
+    FILE *op = fopen(topath, "w");
+    fwrite(buffer, 1, readSize, op);
+    fclose(op);
+    count++;
+    sprintf(topath, "%s.%03d", path, count);
+  }
+  free(buffer);
+  fclose(file);
+  remove(path);
+}
 ```
+- 
+```
+void decv2(char *path) {
+  FILE *check = fopen(path, "r");
+  if (check)return;
+
+  FILE *file = fopen(path, "w");
+  int count = 0;
+  char topath[1000];
+  sprintf(topath, "%s.%03d", path, count);
+  void *buffer = malloc(1024);
+  while(1) {
+    FILE *op = fopen(topath, "rb");
+    if (!op)break;
+    size_t readSize = fread(buffer, 1, 1024, op);
+    fwrite(buffer, 1, readSize, file);
+    fclose(op);
+    remove(topath);
+    count++;
+    sprintf(topath, "%s.%03d", path, count);
+  }
+  free(buffer);
+  fclose(file);
+}
+```
+-
+```
+void direncv2(int encrypt, char *path) {
+  struct dirent *de;
+  DIR *d = opendir(path);
+  if (!d) return;
+  char dir[1000], file[1000];
+
+  while ((de = readdir(d))) {
+    if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, "..")) continue;
+    if (de->d_type == DT_DIR) {
+      sprintf(dir, "%s/%s", path, de->d_name);
+      encrypt ? direncv2(1, dir) : direncv2(0, dir);
+    } else if (de->d_type == DT_REG) {
+      sprintf(file, "%s/%s", path, de->d_name);
+      if (encrypt) {
+        encv2(file);
+      } else {
+        file[strlen(file) - 4] = '\0';
+        decv2(file);
+      }
+    }
+  }
+  closedir(d);
+}
+```
+-
+
 ## Dokumentasi Penyelesaian Soal 2
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/5.png)
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/6.png)
@@ -144,14 +217,15 @@ Tanpa mengurangi keumuman, misalkan suatu directory bernama dir akan tersinkroni
  
 Jika persyaratan di atas terlanggar, maka kedua directory tersebut tidak akan tersinkronisasi lagi. Implementasi dilarang menggunakan symbolic links dan thread. 
  
-File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
+File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/ssfs.c) \
+***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 3
 ```
-
+Define [Tidak mengerti maksud soalnya mas :(( ]
 ```
 ## Dokumentasi Penyelesaian Soal 3
-![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/coming-soon-9c717dcb8e.jpg)
+![]()
 
 # Soal 4 - Log System
 Log System bekerja sebagai berikut.
@@ -179,12 +253,239 @@ INFO::200419-18:29:28::MKDIR::/iz1 
 INFO::200419-18:29:33::CREAT::/iz1/yena.jpg  
 INFO::200419-18:29:33::RENAME::/iz1/yena.jpg::/iz1/yena.jpeg 
 ```
-File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
+File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/ssfs.c) \
+***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 4
 ```
+void logging(int warn, char *cmd, const char *desc) {
+  char buffer[80], mode[8];
+  FILE *logFile = fopen("/home/bhaskarajd/fs.log", "a");
+  time_t t = time(NULL);
+  struct tm *tm = localtime(&t);
 
+  if (!warn) strcpy(mode, "INFO");
+  else strcpy(mode, "WARNING");
+  strftime(buffer, 80, "%y%m%d-%H:%M:%S", tm);
+  fprintf(logFile, "%s::%s::%s::%s\n", mode, buffer, cmd, desc);
+  fclose(logFile);
+}
 ```
+- 
+```
+static int _getattr(const char *path, struct stat *stbuf) {
+  char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
+  if (!exception && encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  int res;
+  char fpath[1000];
+  sprintf(fpath, "%s%s", dirpath, path);
+  res = lstat(fpath, stbuf);
+
+  if (res == -1) {
+    if (!encrypted2 || !strstr(encrypted2, "/")) {
+      return -errno;
+    } else {
+      sprintf(fpath, "%s%s.000", dirpath, path);
+      lstat(fpath, stbuf);
+      int count = 0, sizeCount = 0;
+      struct stat st;
+      while(!stat(fpath, &st)) {
+        count++;
+        sprintf(fpath, "%s%s.%03d", dirpath, path, count);
+        sizeCount += st.st_size;
+      }
+      stbuf->st_size = sizeCount;
+    }
+  }
+  return 0;
+}
+```
+- 
+```
+static int _readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t ofdirpathet, struct fuse_file_info *fi) {
+  char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
+  if (encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  char fpath[1000];
+  if (!strcmp(path, "/")) {
+    path = dirpath;
+    sprintf(fpath, "%s", path);
+  } else sprintf(fpath, "%s%s", dirpath, path);
+  int res = 0;
+
+  DIR *d;
+  struct dirent *de;
+  (void) ofdirpathet;
+  (void) fi;
+  d = opendir(fpath);
+  if (!d) return -errno;
+
+  while ((de = readdir(d))) {
+    struct stat st;
+    memset(&st, 0, sizeof(st));
+    st.st_ino = de->d_ino;
+    st.st_mode = de->d_type << 12;
+
+    int d_len = strlen(de->d_name);
+    if (encrypted2 && de->d_type == DT_REG) {
+      if (!strcmp(de->d_name+(d_len-4), ".000")) {
+        de->d_name[d_len-4] = '\0';
+        res = (filler(buf, de->d_name, &st, 0));
+      }
+    } else {
+      if (encrypted1) encv1(1, de->d_name, d_len);
+      res = (filler(buf, de->d_name, &st, 0));
+    } if (res != 0) break;
+  }
+
+  closedir(d);
+  return 0;
+}
+```
+-
+```
+static int _mkdir(const char *path, mode_t mode) {
+  char *encrypted1 = strstr(path, "encv1_");
+  if (encrypted1) encv1(0, encrypted1, strlen(encrypted1) - 1);
+
+  char fpath[1000];
+  sprintf(fpath, "%s%s", dirpath, path);
+  int res;
+
+  res = mkdir(fpath, mode);
+  if (res == -1) return -errno;
+  logging(0, "MKDIR", path);
+  exception = 2;
+  return 0;
+}
+```
+-
+```
+static int _rmdir(const char *path) {
+  char *encrypted1 = strstr(path, "encv1_");
+  if (encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  char fpath[1000];
+  sprintf(fpath, "%s%s", dirpath, path);
+  int res;
+
+  res = rmdir(fpath);
+  if (res == -1) return -errno;
+  logging(1, "RMDIR", path);
+  exception = 0;
+  return 0;
+}
+```
+-
+```
+static int _rename(const char *from, const char *to) {
+  char *encrypted2from = strstr(from, "encv2_"), *encrypted2to = strstr(to, "encv2_");
+  char ffrom[1000], fto[1000], str[100];
+  sprintf(ffrom, "%s%s", dirpath, from);
+  sprintf(fto, "%s%s", dirpath, to);
+  int res;
+
+  res = rename(ffrom, fto);
+  if (res == -1) return -errno;
+  if (!encrypted2from && encrypted2to) direncv2(1, fto);
+  else if (encrypted2from && !encrypted2to) direncv2(0, fto);
+
+  sprintf(str, "%s::%s", from, to);
+  logging(0, "RENAME", str);
+  exception = 0;
+  return 0;
+}
+```
+-
+```
+static int _open(const char *path, struct fuse_file_info *fi) {
+  char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
+  if (encrypted1 && exception == 1) encv1(0, encrypted1, strlen(encrypted1) - 1);
+  else if (encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  char fpath[1000];
+  if (encrypted2) sprintf(fpath, "%s%s.000", dirpath, path);
+  else sprintf(fpath, "%s%s", dirpath, path);
+  int res;
+
+  res = open(fpath, fi->flags);
+  if (res == -1) return -errno;
+  exception = 0;
+  close(res);
+  return 0;
+}
+```
+-
+```
+static int _read(const char *path, char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
+  char *encrypted1 = strstr(path, "encv1_");
+  if (encrypted1 && exception == 1) encv1(0, encrypted1, strlen(encrypted1) - 1);
+  else if (encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  char fpath[1000];
+  sprintf(fpath, "%s%s", dirpath, path);
+  int fd, res;
+
+  (void) fi;
+  fd = open(fpath, O_RDONLY);
+  if (fd == -1) return -errno;
+
+  res = pread(fd, buf, size, ofdirpathet);
+  if (res == -1) res = -errno;
+  exception = 0;
+  close(fd);
+  return res;
+}
+```
+- 
+```
+static int _write(const char *path, const char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
+  char *encrypted1 = strstr(path, "encv1_");
+  if (encrypted1 && exception == 1) encv1(0, encrypted1, strlen(encrypted1) - 1);
+  else if (encrypted1) encv1(0, encrypted1, strlen(encrypted1));
+
+  char fpath[1000];
+  sprintf(fpath, "%s%s", dirpath, path);
+  int fd, res;
+
+  (void) fi;
+  fd = open(fpath, O_WRONLY);
+  if (fd == -1) return -errno;
+
+  res = pwrite(fd, buf, size, ofdirpathet);
+  if (res == -1) res = -errno;
+  logging(0, "WRITE", path);
+  close(fd);
+  return res;
+}
+```
+-
+```
+static struct fuse_operations _func = {
+  .getattr  = _getattr,
+  .readdir  = _readdir,
+  .read     = _read,
+  .mkdir    = _mkdir,
+  .mknod    = _mknod,
+  .unlink   = _unlink,
+  .rmdir    = _rmdir,
+  .rename   = _rename,
+  .truncate = _truncate,
+  .open     = _open,
+  .read     = _read,
+  .write    = _write,
+};
+```
+-
+```
+int main(int argc, char *argv[]) {
+  umask(0);
+  return fuse_main(argc, argv, &_func, NULL);
+}
+```
+-
+
 ## Dokumentasi Penyelesaian Soal 4
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/7.png)
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/8.png)
