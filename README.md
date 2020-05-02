@@ -224,11 +224,11 @@ void direncv2(int encrypt, char *path) {
   closedir(d);
 }
 ```
-- variabel ***encrypt*** menyimpan fungsi enkripsi.
+- variabel ***encrypt*** menyimpan fungsi enkripsi. Enkripsi yang digunakan metode ***encv2*** terhadap file. Dalam kondisi ***else*** akan dilakukan manipulasi dengan command `file[strlen(file) - 4] = '\0'` dan akhirnya melakukan dekirpsi dengan ***decv2*** terhadap file.
 - variabel ***path*** menyimpan path dari direktori yang akan dieksekusi.
 - variabel ***d*** menyimpan data direktori yang telah dibuka.
-
-
+- command `sprintf(dir, "%s/%s", path, de->d_name)` berfungsi sebagai formatting penamaan direktori.
+- command `sprintf(file, "%s/%s", path, de->d_name)` berfungsi sebagai formatting penamaan file.
 
 ## Dokumentasi Penyelesaian Soal 2
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/5.png)
@@ -300,7 +300,15 @@ void logging(int warn, char *cmd, const char *desc) {
   fclose(logFile);
 }
 ```
-- 
+- variabel ***warn*** menyimpan kondisi/command yang ada dalam mode yang membedakan ***INFO*** dan ***WARNING***.
+- variabel ***cmd*** menyimpan alamat data yang dieksekusi.
+- variabel ***buffer*** berguna untuk membatasi jumlah karakter yakni 80 karakter dan variabel ***mode*** membatasi jumlah command/mode yang digunakan yakni sebanyak 8.
+- `FILE *logFile = fopen("/home/bhaskarajd/fs.log", "a"` berfungsi untuk menyimpan data dalam file ***fs.log***.
+- `time_t t = time(NULL)` berfungsi untuk menyimpan data waktu yang digunakan pada sistem ke variabel ***t***.
+- ` struct tm *tm = localtime(&t)` merupakan ***struct*** yang digunakan menyesuaikan dengan waktu lokal yang digunakan oleh sistem.
+- `strftime(buffer, 80, "%y%m%d-%H:%M:%S", tm)` berfungsi untuk melakukan penulisan sesuai dengan waktu lokal pada sistem.
+- `fprintf(logFile, "%s::%s::%s::%s\n", mode, buffer, cmd, desc)` berfungsi untuk melakukan penulisan sesuai dengan format dan input.
+
 Berikut merupakan fungsi untuk mengambil atribut :
 ```
 static int _getattr(const char *path, struct stat *stbuf) {
@@ -331,7 +339,15 @@ static int _getattr(const char *path, struct stat *stbuf) {
   return 0;
 }
 ```
-- 
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***stbuf*** menyimpan bufffer yang ada.
+- `*encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_"` pendefinisian variabel ***encrypted1*** dan ***encrypted2***.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+- `sprintf(fpath, "%s%s", dirpath, path)` merupakan fungsi penulisan file berdasar format.
+- jika kondisi `(res == -1)` dan `(!encrypted2 || !strstr(encrypted2, "/"))` maka akan `return -errno`.
+- dalam kondisi ***else*** `sprintf(fpath, "%s%s.000", dirpath, path)` merupakan format penulsian awal berdasarkan ***dirpath*** dan ***path***.
+- ketika kondisi `while(!stat(fpath, &st))` maka formatting penulisnnya akan menjadi `sprintf(fpath, "%s%s.%03d", dirpath, path, count)`.
+
 Berikut merupakan fungsi untuk melakukan read directory :
 ```
 static int _readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t ofdirpathet, struct fuse_file_info *fi) {
@@ -374,7 +390,17 @@ static int _readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
   return 0;
 }
 ```
--
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***buf*** menyimpan bufffer yang ada.
+- variabel ***ofdirpathet*** menyimpan path dari direktori yang dieksekusi.
+- variabel ***fi*** menyimpan data dari file.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+`*encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_"` pendefinisian variabel ***encrypted1*** dan ***encrypted2***.
+- jika `(!strcmp(path, "/"))` maka nilai ***path*** samadengan nilai ***dirpath*** dan formati penulisannya akan menjadi `sprintf(fpath, "%s", path)` namun dalam kondisi ***else*** format penulisannya akan menjadi `sprintf(fpath, "%s%s", dirpath, path)`.
+- `d = opendir(fpath)` variabel ***d*** membuka direktori berdasarkan ***fpath***.
+- ketika ` while ((de = readdir(d)))` variabel ***de*** sedang membaca direktori, akan terjadi setting memory dengan `memset(&st, 0, sizeof(st))`.
+- `d_len = strlen(de->d_name)` berfungsi untuk melakukan manipulasi terhadap variabel. Jika kondisinya `(encrypted2 && de->d_type == DT_REG)` dan `(!strcmp(de->d_name+(d_len-4), ".000"))` maka `de->d_name[d_len-4] = '\0'` dan variabel ***res*** akan mengisi `res = (filler(buf, de->d_name, &st, 0))`.
+
 Berikut merupakan fungsi untuk membuat direktori :
 ```
 static int _mkdir(const char *path, mode_t mode) {
@@ -392,7 +418,14 @@ static int _mkdir(const char *path, mode_t mode) {
   return 0;
 }
 ```
--
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***mode*** menyimpan mode yang dilakukan.
+- ` char *encrypted1 = strstr(path, "encv1_")` merupakan variabel yang menyimpan data file yang telah dienkripsi dengan ***encv1***.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+- `sprintf(fpath, "%s%s", dirpath, path)` merupakan fungsi penulisan file berdasar format.
+- `res = mkdir(fpath, mode)` variabel ***res*** menghapus file bedasarkan ***fpath*** dan ***mode***.
+- `logging(0, "MKDIR", path)` berfungsi untuk menuliskan fungsi ***MKDIR*** dalam fs.log.
+
 Berikut merupakan fungsi untuk menghapus direktori :
 ```
 static int _rmdir(const char *path) {
@@ -410,7 +443,13 @@ static int _rmdir(const char *path) {
   return 0;
 }
 ```
--
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- ` char *encrypted1 = strstr(path, "encv1_")` merupakan variabel yang menyimpan data file yang telah dienkripsi dengan ***encv1***.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+- `sprintf(fpath, "%s%s", dirpath, path)` merupakan fungsi penulisan file berdasar format.
+- `res = rmdir(fpath)` variabel ***res*** menghapus file bedasarkan ***fpath***.
+- `logging(1, "RMDIR", path)` berfungsi untuk menuliskan fungsi ***RMDIR*** dalam fs.log.
+
 Berikut merupakan fungsi untuk mengganti nama :
 ```
 static int _rename(const char *from, const char *to) {
@@ -431,7 +470,16 @@ static int _rename(const char *from, const char *to) {
   return 0;
 }
 ```
--
+- variabel ***from*** menyimpan data nama file awal.
+- variabel ***to*** menyimpan data nama file setelah diubah.
+- `*encrypted2from = strstr(from, "encv2_"), *encrypted2to = strstr(to, "encv2_")` variabel ***encrypted2*** mengambil data hasil operasi ***encv***.
+- `char ffrom[1000], fto[1000], str[100]` melakukan pembatasan ukuran pada variabel.
+- `sprintf(ffrom, "%s%s", dirpath, from)` merupakan formatting nama pada variabel ***ffrom***.
+- `sprintf(fto, "%s%s", dirpath, to)` merupakan formatting nama pada variabel ***fto***.
+- `res = rename(ffrom, fto)` variabel ***res*** menyimpan fungsi ***rename*** berdasarkan ***ffrom*** dan ***fto***.
+- ` sprintf(str, "%s::%s", from, to)` merupakan formatting nama setelah di-***rename***.
+- `logging(0, "RENAME", str)` menyimpan opersi dengan nama ***RENAME*** pada fs.log.
+
 Berikut merupakan fungsi untuk membuka file :
 ```
 static int _open(const char *path, struct fuse_file_info *fi) {
@@ -451,7 +499,11 @@ static int _open(const char *path, struct fuse_file_info *fi) {
   return 0;
 }
 ```
--
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***fi*** menyimpan data dari file.
+- `(encrypted2) sprintf(fpath, "%s%s.000", dirpath, path)` pada variabel ***encrypted2*** formatting-nya adalah `sprintf(fpath, "%s%s.000", dirpath, path)`, pada kondisi else formattingnya adalah `sprintf(fpath, "%s%s", dirpath, path)`.
+- `res = open(fpath, fi->flags)` variabel ***res*** menyimpan data dari ***fpath*** dan dan ***fi*** yang mengacu ke ***flags***.
+
 Berikut adalah fungsi untuk membaca file :
 ```
 static int _read(const char *path, char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
@@ -474,7 +526,17 @@ static int _read(const char *path, char *buf, size_t size, off_t ofdirpathet, st
   return res;
 }
 ```
-- 
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***buf*** menyimpan buffer.
+- variabel ***size*** menyimpan ukuran data file.
+- variabel ***ofdirpathet*** menyimpan path dari direktori yang dieksekusi.
+- variabel ***fi*** menyimpan data dari file.
+- ` char *encrypted1 = strstr(path, "encv1_")` merupakan variabel yang menyimpan data file yang telah dienkripsi dengan ***encv1***.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+- `sprintf(fpath, "%s%s", dirpath, path)` merupakan fungsi penulisan file berdasar format.
+- ` fd = open(fpath, O_RDONLY)` berfungsi membuka data yang ada dalam ***fpath***.
+- `res = pread(fd, buf, size, ofdirpathet)` untuk membaca variabel ***res***.
+
 Berikut merupakan fungsi untuk menulis di file :
 ```
 static int _write(const char *path, const char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
@@ -497,7 +559,18 @@ static int _write(const char *path, const char *buf, size_t size, off_t ofdirpat
   return res;
 }
 ```
--
+- variabel ***path*** menyimpan path/alamat file yang dieksekusi.
+- variabel ***buf*** menyimpan buffer.
+- variabel ***size*** menyimpan ukuran data file.
+- variabel ***ofdirpathet*** menyimpan path dari direktori yang dieksekusi.
+- variabel ***fi*** menyimpan data dari file.
+- ` char *encrypted1 = strstr(path, "encv1_")` merupakan variabel yang menyimpan data file yang telah dienkripsi dengan ***encv1***.
+- variabel ***fpath*** bertipe integer dan memiliki batas 1000 karakter.
+- `sprintf(fpath, "%s%s", dirpath, path)` merupakan fungsi penulisan file berdasar format.
+- ` fd = open(fpath, O_RDONLY)` berfungsi membuka data yang ada dalam ***fpath***.
+- `res = pread(fd, buf, size, ofdirpathet)` untuk membaca variabel ***res***.
+- `logging(0, "WRITE", path)` berfungsi untuk menuliskan fungsi ***WRITE*** dalam fs.log.
+
 Berikut daftar fungsi dan atribut/command yang ada dalam program :
 ```
 static struct fuse_operations _func = {
@@ -515,7 +588,9 @@ static struct fuse_operations _func = {
   .write    = _write,
 };
 ```
--
+- variabel ***_func*** merupakan variabel yang digunakan untuk memanggil command operasi yang ada.
+- untuk operasi fuse yang digunakan pada program sebanyak 12 operasi.
+
 Berikut adalah fungsi inti yang ada dalam program :
 ```
 int main(int argc, char *argv[]) {
@@ -523,7 +598,10 @@ int main(int argc, char *argv[]) {
   return fuse_main(argc, argv, &_func, NULL);
 }
 ```
--
+- variabel ***argc*** dan ***argv*** berisi perintah yang akan dijalankan.
+- variabel ***_func*** merupakan variabel yang digunakan untuk memanggil command operasi yang ada.
+
+## Note : untuk penjelasan source code nomor 4 selebihnya sama untuk masing-masing operasi fuse sehingga penulis hanya menulis beberapa sebagai contoh.
 
 ## Dokumentasi Penyelesaian Soal 4
 ![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/7.png)
