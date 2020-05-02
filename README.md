@@ -44,8 +44,8 @@ Contoh implementasnya adalah sebagai berikut.
 
 ***Note : Dalam penamaan file ‘/’ diabaikan, dan ekstensi tidak perlu di encrypt.*** 
 
-File penyelesaian soal ini dapat dilihat link berikut : [Source Code]()
-## Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ***ssfs.c*** .
+File penyelesaian soal ini dapat dilihat link berikut : [Source Code]() \
+***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ***ssfs.c*** .***
 
 ## Penyelesaian Soal 1
 ```
