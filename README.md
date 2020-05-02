@@ -127,6 +127,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://gi
 ***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 2
+Berikut merupakan fungsi untuk enkripsi :
 ```
 void encv2(char *path) {
   FILE *file = fopen(path, "rb");
@@ -150,6 +151,7 @@ void encv2(char *path) {
 }
 ```
 - 
+Berikut merupakan fungsi untuk dekripsi :
 ```
 void decv2(char *path) {
   FILE *check = fopen(path, "r");
@@ -175,6 +177,7 @@ void decv2(char *path) {
 }
 ```
 -
+Berikut merupakan fungsi unntuk enkripsi direktori :
 ```
 void direncv2(int encrypt, char *path) {
   struct dirent *de;
@@ -225,7 +228,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://gi
 Define [Tidak mengerti maksud soalnya mas :(( ]
 ```
 ## Dokumentasi Penyelesaian Soal 3
-![]()
+![](https://github.com/Bhaskaraa/SoalShiftSISOP20_modul4_T02/blob/master/Screenshot/S__11214850.jpg)
 
 # Soal 4 - Log System
 Log System bekerja sebagai berikut.
@@ -257,6 +260,7 @@ File penyelesaian soal ini dapat dilihat link berikut : [Source Code](https://gi
 ***Dibawah ini penulis akan menjelaskan source code berdasarkan fungsi yang digunakan pada soal, selengkapnya terdapat pada source code pada file ssfs.c .***
 
 ## Penyelesaian Soal 4
+Berikut merupakan fungsi untuk melakukan Log :
 ```
 void logging(int warn, char *cmd, const char *desc) {
   char buffer[80], mode[8];
@@ -272,6 +276,7 @@ void logging(int warn, char *cmd, const char *desc) {
 }
 ```
 - 
+Berikut merupakan fungsi untuk mengambil atribut :
 ```
 static int _getattr(const char *path, struct stat *stbuf) {
   char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
@@ -302,6 +307,7 @@ static int _getattr(const char *path, struct stat *stbuf) {
 }
 ```
 - 
+Berikut merupakan fungsi untuk melakukan read directory :
 ```
 static int _readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t ofdirpathet, struct fuse_file_info *fi) {
   char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
@@ -344,6 +350,7 @@ static int _readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
 }
 ```
 -
+Berikut merupakan fungsi untuk membuat direktori :
 ```
 static int _mkdir(const char *path, mode_t mode) {
   char *encrypted1 = strstr(path, "encv1_");
@@ -361,6 +368,7 @@ static int _mkdir(const char *path, mode_t mode) {
 }
 ```
 -
+Berikut merupakan fungsi untuk menghapus direktori :
 ```
 static int _rmdir(const char *path) {
   char *encrypted1 = strstr(path, "encv1_");
@@ -378,6 +386,7 @@ static int _rmdir(const char *path) {
 }
 ```
 -
+Berikut merupakan fungsi untuk mengganti nama :
 ```
 static int _rename(const char *from, const char *to) {
   char *encrypted2from = strstr(from, "encv2_"), *encrypted2to = strstr(to, "encv2_");
@@ -398,6 +407,7 @@ static int _rename(const char *from, const char *to) {
 }
 ```
 -
+Berikut merupakan fungsi untuk membuka file :
 ```
 static int _open(const char *path, struct fuse_file_info *fi) {
   char *encrypted1 = strstr(path, "encv1_"), *encrypted2 = strstr(path, "encv2_");
@@ -417,6 +427,7 @@ static int _open(const char *path, struct fuse_file_info *fi) {
 }
 ```
 -
+Berikut adalah fungsi untuk membaca file :
 ```
 static int _read(const char *path, char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
   char *encrypted1 = strstr(path, "encv1_");
@@ -439,6 +450,7 @@ static int _read(const char *path, char *buf, size_t size, off_t ofdirpathet, st
 }
 ```
 - 
+Berikut merupakan fungsi untuk menulis di file :
 ```
 static int _write(const char *path, const char *buf, size_t size, off_t ofdirpathet, struct fuse_file_info *fi) {
   char *encrypted1 = strstr(path, "encv1_");
@@ -461,6 +473,7 @@ static int _write(const char *path, const char *buf, size_t size, off_t ofdirpat
 }
 ```
 -
+Berikut daftar fungsi dan atribut/command yang ada dalam program :
 ```
 static struct fuse_operations _func = {
   .getattr  = _getattr,
@@ -478,6 +491,7 @@ static struct fuse_operations _func = {
 };
 ```
 -
+Berikut adalah fungsi inti yang ada dalam program :
 ```
 int main(int argc, char *argv[]) {
   umask(0);
